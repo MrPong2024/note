@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สุ่มเลข - Random Number Generator</title>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="dice-6" class="logo-icon"></i>
+                    <h1>สุ่มเลข</h1>
+                </div>
+                <p class="subtitle">Random Number Generator</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Settings Card -->
+            <div class="card settings-card">
+                <div class="card-header">
+                    <i data-lucide="settings" class="card-icon"></i>
+                    <h2>ตั้งค่าการสุ่ม</h2>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label for="minValue">
+                                <i data-lucide="minus" class="input-icon"></i>
+                                ตัวเลขต่ำสุด
+                            </label>
+                            <input type="number" id="minValue" value="1" min="0">
+                        </div>
+                        <div class="input-field">
+                            <label for="maxValue">
+                                <i data-lucide="plus" class="input-icon"></i>
+                                ตัวเลขสูงสุด
+                            </label>
+                            <input type="number" id="maxValue" value="100" min="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="card result-card">
+                <div class="card-header">
+                    <i data-lucide="target" class="card-icon"></i>
+                    <h2>ผลลัพธ์</h2>
+                </div>
+                <div class="card-body">
+                    <div class="result-display">
+                        <div class="number-container">
+                            <span class="result-number" id="resultNumber">?</span>
+                        </div>
+                        <div class="result-info" id="resultInfo">
+                            <span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="generateBtn">
+                    <i data-lucide="shuffle" class="btn-icon"></i>
+                    สุ่มเลข
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i data-lucide="refresh-cw" class="btn-icon"></i>
+                    รีเซ็ต
+                </button>
+                <button class="btn btn-accent" id="copyBtn" disabled>
+                    <i data-lucide="copy" class="btn-icon"></i>
+                    คัดลอก
+                </button>
+            </div>
+
+            <!-- History Card -->
+            <div class="card history-card">
+                <div class="card-header">
+                    <i data-lucide="clock" class="card-icon"></i>
+                    <h2>ประวัติการสุ่ม</h2>
+                    <button class="btn-clear-history" id="clearHistoryBtn">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="history-list" id="historyList">
+                        <div class="history-empty">
+                            <i data-lucide="archive" class="empty-icon"></i>
+                            <p>ยังไม่มีประวัติการสุ่ม</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Random Number Generator. สร้างด้วย Node.js</p>
+                <div class="tech-stack">
+                    <i data-lucide="server" title="Node.js"></i>
+                    <i data-lucide="globe" title="Express"></i>
+                    <i data-lucide="code" title="JavaScript"></i>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i data-lucide="loader-2" class="spin"></i>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i data-lucide="check" class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="/js/app.js"></script>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
