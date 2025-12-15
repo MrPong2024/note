@@ -139,17 +139,32 @@ class NumberGenerator {
         if (this.shareBtn) this.shareBtn.addEventListener('click', () => this.shareResult());
 
         // Mode switching
-        if (this.basicModeBtn) this.basicModeBtn.addEventListener('click', () => this.switchMode('basic'));
-        if (this.multipleModeBtn) this.multipleModeBtn.addEventListener('click', () => this.switchMode('multiple'));
-        if (this.lotteryModeBtn) this.lotteryModeBtn.addEventListener('click', () => this.switchMode('lottery'));
-        if (this.templateModeBtn) this.templateModeBtn.addEventListener('click', () => this.switchMode('template'));
+        console.log('Binding mode events...');
+        if (this.basicModeBtn) {
+            console.log('Basic mode button found');
+            this.basicModeBtn.addEventListener('click', () => this.switchMode('basic'));
+        }
+        if (this.multipleModeBtn) {
+            console.log('Multiple mode button found');
+            this.multipleModeBtn.addEventListener('click', () => this.switchMode('multiple'));
+        }
+        if (this.lotteryModeBtn) {
+            console.log('Lottery mode button found');
+            this.lotteryModeBtn.addEventListener('click', () => this.switchMode('lottery'));
+        }
+        if (this.templateModeBtn) {
+            console.log('Template mode button found');
+            this.templateModeBtn.addEventListener('click', () => this.switchMode('template'));
+        }
 
         // Lottery presets
         document.addEventListener('click', (e) => {
             if (e.target.matches('[data-lottery]')) {
+                console.log('Lottery preset clicked:', e.target.dataset.lottery);
                 this.generateLottery(e.target.dataset.lottery);
             }
             if (e.target.matches('[data-template]')) {
+                console.log('Template clicked:', e.target.dataset.template);
                 this.generateTemplate(e.target.dataset.template);
             }
         });
@@ -161,15 +176,28 @@ class NumberGenerator {
     }
 
     switchMode(mode) {
+        console.log('Switching to mode:', mode);
         this.currentMode = mode;
         
         // Update mode buttons
         document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`${mode}ModeBtn`).classList.add('active');
+        const targetBtn = document.getElementById(`${mode}ModeBtn`);
+        if (targetBtn) {
+            targetBtn.classList.add('active');
+            console.log('Activated button:', targetBtn.id);
+        } else {
+            console.error('Button not found:', `${mode}ModeBtn`);
+        }
         
         // Update content visibility
         document.querySelectorAll('.mode-content').forEach(content => content.classList.remove('active'));
-        document.getElementById(`${mode}Mode`).classList.add('active');
+        const targetContent = document.getElementById(`${mode}Mode`);
+        if (targetContent) {
+            targetContent.classList.add('active');
+            console.log('Activated content:', targetContent.id);
+        } else {
+            console.error('Content not found:', `${mode}Mode`);
+        }
         
         this.clearResult();
     }
