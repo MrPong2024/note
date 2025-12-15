@@ -1650,11 +1650,12 @@ body {
 }
 
 .mode-content {
+    display: none;
     transition: var(--transition);
 }
 
-.mode-content.hidden {
-    display: none;
+.mode-content.active {
+    display: block;
 }
 
 /* Multiple Numbers Display */
