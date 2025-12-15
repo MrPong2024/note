@@ -1159,6 +1159,13 @@ body {
     margin-bottom: 1rem;
 }
 
+.number-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .result-number {
     font-size: 4rem;
     font-weight: 700;
@@ -1172,6 +1179,77 @@ body {
 .result-number.animate {
     animation: numberPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+
+.multi-numbers {
+    display: none;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.multi-numbers.show {
+    display: flex;
+}
+
+.multi-number {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    min-width: 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.multi-number::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.multi-number:hover::before {
+    left: 100%;
+}
+
+.multi-number:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* Animation for multi-numbers */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.multi-number {
+    animation: slideInUp 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.multi-number:nth-child(1) { animation-delay: 0.1s; }
+.multi-number:nth-child(2) { animation-delay: 0.2s; }
+.multi-number:nth-child(3) { animation-delay: 0.3s; }
+.multi-number:nth-child(4) { animation-delay: 0.4s; }
+.multi-number:nth-child(5) { animation-delay: 0.5s; }
+.multi-number:nth-child(6) { animation-delay: 0.6s; }
 
 .result-info {
     display: flex;

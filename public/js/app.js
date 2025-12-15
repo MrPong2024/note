@@ -109,6 +109,7 @@ class MultiToolApp {
 class NumberGenerator {
     constructor(app) {
         this.app = app;
+        this.currentMode = 'basic';
         this.initializeElements();
         this.bindEvents();
     }
@@ -117,11 +118,18 @@ class NumberGenerator {
         this.minValueInput = document.getElementById('minValue');
         this.maxValueInput = document.getElementById('maxValue');
         this.resultNumber = document.getElementById('resultNumber');
+        this.multiNumbers = document.getElementById('multiNumbers');
         this.resultInfo = document.getElementById('resultInfo');
         this.generateBtn = document.getElementById('generateBtn');
         this.clearBtn = document.getElementById('clearBtn');
         this.copyBtn = document.getElementById('copyBtn');
         this.shareBtn = document.getElementById('shareBtn');
+
+        // Mode elements
+        this.basicModeBtn = document.getElementById('basicModeBtn');
+        this.multipleModeBtn = document.getElementById('multipleModeBtn');
+        this.lotteryModeBtn = document.getElementById('lotteryModeBtn');
+        this.templateModeBtn = document.getElementById('templateModeBtn');
     }
 
     bindEvents() {
@@ -130,9 +138,170 @@ class NumberGenerator {
         if (this.copyBtn) this.copyBtn.addEventListener('click', () => this.copyResult());
         if (this.shareBtn) this.shareBtn.addEventListener('click', () => this.shareResult());
 
+        // Mode switching
+        if (this.basicModeBtn) this.basicModeBtn.addEventListener('click', () => this.switchMode('basic'));
+        if (this.multipleModeBtn) this.multipleModeBtn.addEventListener('click', () => this.switchMode('multiple'));
+        if (this.lotteryModeBtn) this.lotteryModeBtn.addEventListener('click', () => this.switchMode('lottery'));
+        if (this.templateModeBtn) this.templateModeBtn.addEventListener('click', () => this.switchMode('template'));
+
+        // Lottery presets
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('[data-lottery]')) {
+                this.generateLottery(e.target.dataset.lottery);
+            }
+            if (e.target.matches('[data-template]')) {
+                this.generateTemplate(e.target.dataset.template);
+            }
+        });
+
         // Input validation
         [this.minValueInput, this.maxValueInput].forEach(input => {
             if (input) input.addEventListener('input', () => this.validateInputs());
+        });
+    }
+
+    switchMode(mode) {
+        this.currentMode = mode;
+        
+        // Update mode buttons
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`${mode}ModeBtn`).classList.add('active');
+        
+        // Update content visibility
+        document.querySelectorAll('.mode-content').forEach(content => content.classList.remove('active'));
+        document.getElementById(`${mode}Mode`).classList.add('active');
+        
+        this.clearResult();
+    }
+
+    generateLottery(type) {
+        let numbers = [];
+        let info = '';
+        
+        switch(type) {
+            case 'thai':
+                numbers = this.generateRandomNumbers(100000, 999999, 1);
+                info = 'ลอตเตอรี่ไทย (6 หลัก)';
+                break;
+            case 'mega':
+                numbers = this.generateRandomNumbers(1, 70, 5);
+                info = 'Mega Millions (5 เลข 1-70)';
+                break;
+            case 'powerball':
+                numbers = this.generateRandomNumbers(1, 69, 5);
+                info = 'Powerball (5 เลข 1-69)';
+                break;
+        }
+        
+        this.displayMultipleResults(numbers, info);
+    }
+
+    generateTemplate(type) {
+        let numbers = [];
+        let info = '';
+        
+        switch(type) {
+            case 'phone':
+                const phonePrefix = ['080', '081', '082', '083', '084', '085', '086', '087', '088', '089'];
+                const prefix = phonePrefix[Math.floor(Math.random() * phonePrefix.length)];
+                const suffix = Math.floor(Math.random() * 10000000).toString().padStart(7, '0');
+                this.displaySingleResult(prefix + suffix, 'หมายเลขโทรศัพท์มือถือ');
+                return;
+            case 'dice':
+                numbers = this.generateRandomNumbers(1, 6, 1);
+                info = 'ลูกเต๋า (1-6)';
+                break;
+            case 'coin':
+                const coin = Math.random() < 0.5 ? 'หัว' : 'ก้อย';
+                this.displaySingleResult(coin, 'เหรียญ');
+                return;
+            case 'grade':
+                const grades = ['A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F'];
+                const grade = grades[Math.floor(Math.random() * grades.length)];
+                this.displaySingleResult(grade, 'เกรด');
+                return;
+            case 'year':
+                numbers = this.generateRandomNumbers(1900, 2024, 1);
+                info = 'ปี ค.ศ.';
+                break;
+            case 'percent':
+                numbers = this.generateRandomNumbers(0, 100, 1);
+                info = 'เปอร์เซ็นต์ (%)';
+                break;
+        }
+        
+        if (numbers.length === 1) {
+            this.displaySingleResult(numbers[0], info);
+        } else {
+            this.displayMultipleResults(numbers, info);
+        }
+    }
+
+    generateRandomNumbers(min, max, count, unique = false) {
+        const numbers = [];
+        
+        if (unique && (max - min + 1) < count) {
+            count = max - min + 1; // Adjust count if range is smaller
+        }
+        
+        for (let i = 0; i < count; i++) {
+            let number;
+            do {
+                number = Math.floor(Math.random() * (max - min + 1)) + min;
+            } while (unique && numbers.includes(number));
+            
+            numbers.push(number);
+        }
+        
+        return unique ? numbers.sort((a, b) => a - b) : numbers;
+    }
+
+    displaySingleResult(result, info) {
+        if (this.resultNumber) {
+            this.resultNumber.textContent = result;
+            this.resultNumber.classList.remove('animate');
+            this.resultNumber.style.display = 'inline-block';
+            setTimeout(() => this.resultNumber.classList.add('animate'), 10);
+        }
+        
+        if (this.multiNumbers) {
+            this.multiNumbers.classList.remove('show');
+        }
+        
+        if (this.resultInfo) {
+            this.resultInfo.innerHTML = `<span class="range-text">${info}</span>`;
+        }
+        
+        this.enableActionButtons();
+    }
+
+    displayMultipleResults(numbers, info) {
+        if (this.resultNumber) {
+            this.resultNumber.style.display = 'none';
+        }
+        
+        if (this.multiNumbers) {
+            this.multiNumbers.innerHTML = '';
+            numbers.forEach((num, index) => {
+                const numberElement = document.createElement('div');
+                numberElement.className = 'multi-number';
+                numberElement.textContent = num;
+                numberElement.style.animationDelay = `${index * 0.1}s`;
+                this.multiNumbers.appendChild(numberElement);
+            });
+            this.multiNumbers.classList.add('show');
+        }
+        
+        if (this.resultInfo) {
+            this.resultInfo.innerHTML = `<span class="range-text">${info}</span>`;
+        }
+        
+        this.enableActionButtons();
+    }
+
+    enableActionButtons() {
+        [this.clearBtn, this.copyBtn, this.shareBtn].forEach(btn => {
+            if (btn) btn.disabled = false;
         });
     }
 
@@ -152,6 +321,29 @@ class NumberGenerator {
     }
 
     async generateNumber() {
+        // Handle multiple mode
+        if (this.currentMode === 'multiple') {
+            const countInput = document.getElementById('multipleCount');
+            const uniqueCheckbox = document.getElementById('uniqueNumbers');
+            
+            if (!countInput || !this.validateInputs()) {
+                this.app.showToast('กรุณาตรวจสอบค่าที่กรอก', 'error');
+                return;
+            }
+            
+            const min = parseInt(this.minValueInput.value);
+            const max = parseInt(this.maxValueInput.value);
+            const count = parseInt(countInput.value) || 5;
+            const unique = uniqueCheckbox ? uniqueCheckbox.checked : false;
+            
+            const numbers = this.generateRandomNumbers(min, max, count, unique);
+            const info = `${count} เลข (${min}-${max})${unique ? ' ไม่ซ้ำ' : ''}`;
+            this.displayMultipleResults(numbers, info);
+            this.app.showToast('สุ่มเลขสำเร็จ!');
+            return;
+        }
+        
+        // Handle basic mode (original functionality)
         if (!this.validateInputs()) {
             this.app.showToast('กรุณาตรวจสอบค่าที่กรอก', 'error');
             return;
@@ -177,7 +369,7 @@ class NumberGenerator {
             }
 
             const data = await response.json();
-            this.displayResult(data);
+            this.displaySingleResult(data.number, `ระหว่าง ${min} - ${max}`);
             this.app.showToast('สุ่มเลขสำเร็จ!');
 
         } catch (error) {
@@ -189,39 +381,68 @@ class NumberGenerator {
         }
     }
 
-    displayResult(data) {
-        this.resultNumber.textContent = data.number.toLocaleString('th-TH');
-        this.resultInfo.innerHTML = `<span class="range-text">ช่วง ${data.min.toLocaleString('th-TH')} - ${data.max.toLocaleString('th-TH')}</span>`;
-        this.copyBtn.disabled = false;
-        this.shareBtn.disabled = false;
-    }
-
     clearResult() {
-        this.resultNumber.textContent = '?';
-        this.resultInfo.innerHTML = '<span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>';
-        this.copyBtn.disabled = true;
-        this.shareBtn.disabled = true;
+        if (this.resultNumber) {
+            this.resultNumber.textContent = '?';
+            this.resultNumber.style.display = 'inline-block';
+        }
+        
+        if (this.multiNumbers) {
+            this.multiNumbers.innerHTML = '';
+            this.multiNumbers.classList.remove('show');
+        }
+        
+        if (this.resultInfo) {
+            this.resultInfo.innerHTML = '<span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>';
+        }
+        
+        [this.copyBtn, this.shareBtn].forEach(btn => {
+            if (btn) btn.disabled = true;
+        });
     }
 
     copyResult() {
-        if (this.resultNumber.textContent === '?') return;
-        this.app.copyToClipboard(this.resultNumber.textContent.replace(/,/g, ''));
+        let textToCopy = '';
+        
+        if (this.multiNumbers && this.multiNumbers.classList.contains('show')) {
+            // Copy multiple numbers
+            const numbers = Array.from(this.multiNumbers.children)
+                .map(el => el.textContent)
+                .join(', ');
+            textToCopy = numbers;
+        } else if (this.resultNumber && this.resultNumber.textContent !== '?') {
+            // Copy single number
+            textToCopy = this.resultNumber.textContent.replace(/,/g, '');
+        }
+        
+        if (textToCopy) {
+            this.app.copyToClipboard(textToCopy);
+        }
     }
 
     async shareResult() {
-        if (this.resultNumber.textContent === '?') return;
+        let shareText = '';
         
-        const text = `สุ่มเลขได้: ${this.resultNumber.textContent} 🎲\\n\\nสุ่มเลขออนไลน์ที่ ${window.location.href}`;
+        if (this.multiNumbers && this.multiNumbers.classList.contains('show')) {
+            const numbers = Array.from(this.multiNumbers.children)
+                .map(el => el.textContent)
+                .join(', ');
+            shareText = `สุ่มเลขได้: ${numbers} 🎲\n\nสุ่มเลขออนไลน์ที่ ${window.location.href}`;
+        } else if (this.resultNumber && this.resultNumber.textContent !== '?') {
+            shareText = `สุ่มเลขได้: ${this.resultNumber.textContent} 🎲\n\nสุ่มเลขออนไลน์ที่ ${window.location.href}`;
+        }
+        
+        if (!shareText) return;
         
         try {
             if (navigator.share) {
                 await navigator.share({
                     title: 'สุ่มเลข',
-                    text: text,
+                    text: shareText,
                     url: window.location.href
                 });
             } else {
-                await this.app.copyToClipboard(text, 'คัดลอกข้อความสำหรับแชร์แล้ว!');
+                await this.app.copyToClipboard(shareText, 'คัดลอกข้อความสำหรับแชร์แล้ว!');
             }
         } catch (error) {
             console.error('Share failed:', error);

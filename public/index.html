@@ -115,6 +115,89 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Multiple Mode -->
+                            <div class="mode-content hidden" id="multipleMode">
+                                <div class="input-group">
+                                    <div class="input-field">
+                                        <label for="multiCount">
+                                            <i data-lucide="layers" class="input-icon"></i>
+                                            จำนวนเลขที่ต้องการ
+                                        </label>
+                                        <input type="number" id="multiCount" value="5" min="1" max="50">
+                                    </div>
+                                    <div class="input-field">
+                                        <label>
+                                            <input type="checkbox" id="uniqueNumbers" checked>
+                                            ไม่ซ้ำกัน
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-field">
+                                        <label for="multiMin">
+                                            <i data-lucide="minus" class="input-icon"></i>
+                                            ตัวเลขต่ำสุด
+                                        </label>
+                                        <input type="number" id="multiMin" value="1" min="0">
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="multiMax">
+                                            <i data-lucide="plus" class="input-icon"></i>
+                                            ตัวเลขสูงสุด
+                                        </label>
+                                        <input type="number" id="multiMax" value="100" min="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lottery Mode -->
+                            <div class="mode-content hidden" id="lotteryMode">
+                                <div class="lottery-presets">
+                                    <button class="preset-btn" data-preset="thai-lottery">
+                                        <i data-lucide="flag" class="preset-icon"></i>
+                                        หวยไทย (6 หลัก)
+                                    </button>
+                                    <button class="preset-btn" data-preset="mega-millions">
+                                        <i data-lucide="star" class="preset-icon"></i>
+                                        Mega Millions
+                                    </button>
+                                    <button class="preset-btn" data-preset="powerball">
+                                        <i data-lucide="zap" class="preset-icon"></i>
+                                        Powerball
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Template Mode -->
+                            <div class="mode-content hidden" id="templateMode">
+                                <div class="template-grid">
+                                    <button class="template-btn" data-template="phone">
+                                        <i data-lucide="phone" class="template-icon"></i>
+                                        เบอร์โทรศัพท์
+                                    </button>
+                                    <button class="template-btn" data-template="dice">
+                                        <i data-lucide="dice-6" class="template-icon"></i>
+                                        ลูกเต๋า (1-6)
+                                    </button>
+                                    <button class="template-btn" data-template="coin">
+                                        <i data-lucide="coins" class="template-icon"></i>
+                                        เหรียญ (หัว/ก้อย)
+                                    </button>
+                                    <button class="template-btn" data-template="grade">
+                                        <i data-lucide="graduation-cap" class="template-icon"></i>
+                                        คะแนนสอบ (0-100)
+                                    </button>
+                                    <button class="template-btn" data-template="year">
+                                        <i data-lucide="calendar" class="template-icon"></i>
+                                        ปี (1900-2025)
+                                    </button>
+                                    <button class="template-btn" data-template="percentage">
+                                        <i data-lucide="percent" class="template-icon"></i>
+                                        เปอร์เซ็นต์ (0-100)
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -128,6 +211,7 @@
                             <div class="result-display">
                                 <div class="number-container" id="numberContainer">
                                     <span class="result-number" id="resultNumber">?</span>
+                                    <div class="multi-numbers" id="multiNumbers"></div>
                                 </div>
                                 <div class="result-info" id="resultInfo">
                                     <span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>
