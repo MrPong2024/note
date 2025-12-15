@@ -353,16 +353,23 @@ class NumberGenerator {
         if (this.currentMode === 'multiple') {
             const countInput = document.getElementById('multipleCount');
             const uniqueCheckbox = document.getElementById('uniqueNumbers');
+            const minInput = document.getElementById('multiMin') || this.minValueInput;
+            const maxInput = document.getElementById('multiMax') || this.maxValueInput;
             
-            if (!countInput || !this.validateInputs()) {
-                this.app.showToast('กรุณาตรวจสอบค่าที่กรอก', 'error');
+            if (!countInput) {
+                this.app.showToast('ไม่พบช่องใส่จำนวนเลข', 'error');
                 return;
             }
             
-            const min = parseInt(this.minValueInput.value);
-            const max = parseInt(this.maxValueInput.value);
+            const min = parseInt(minInput.value) || 1;
+            const max = parseInt(maxInput.value) || 100;
             const count = parseInt(countInput.value) || 5;
             const unique = uniqueCheckbox ? uniqueCheckbox.checked : false;
+            
+            if (min >= max) {
+                this.app.showToast('ค่าต่ำสุดต้องน้อยกว่าค่าสูงสุด', 'error');
+                return;
+            }
             
             const numbers = this.generateRandomNumbers(min, max, count, unique);
             const info = `${count} เลข (${min}-${max})${unique ? ' ไม่ซ้ำ' : ''}`;
