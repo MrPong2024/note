@@ -571,6 +571,7 @@ body {
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 2rem;
 }
 
 .btn {
@@ -580,7 +581,7 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -588,6 +589,32 @@ body {
     outline: none;
     position: relative;
     overflow: hidden;
+    transform: translateY(0);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
     min-width: 140px;
     justify-content: center;
 }
@@ -1164,6 +1191,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 120px;
 }
 
 .result-number {
@@ -1171,13 +1199,29 @@ body {
     font-weight: 700;
     color: var(--primary-color);
     display: inline-block;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
     position: relative;
+    transform-origin: center;
 }
 
 .result-number.animate {
-    animation: numberPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: numberPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes numberPulse {
+    0% { 
+        transform: scale(0.8); 
+        opacity: 0.5;
+    }
+    50% { 
+        transform: scale(1.1); 
+        opacity: 0.8;
+    }
+    100% { 
+        transform: scale(1); 
+        opacity: 1;
+    }
 }
 
 .multi-numbers {
@@ -1186,6 +1230,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 1rem;
+    min-height: 60px;
 }
 
 .multi-numbers.show {
@@ -1205,6 +1250,8 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .multi-number::before {
@@ -1223,33 +1270,34 @@ body {
 }
 
 .multi-number:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
 }
 
 /* Animation for multi-numbers */
 @keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .multi-number {
     animation: slideInUp 0.5s ease-out forwards;
-    opacity: 0;
 }
 
 .multi-number:nth-child(1) { animation-delay: 0.1s; }
-.multi-number:nth-child(2) { animation-delay: 0.2s; }
-.multi-number:nth-child(3) { animation-delay: 0.3s; }
-.multi-number:nth-child(4) { animation-delay: 0.4s; }
-.multi-number:nth-child(5) { animation-delay: 0.5s; }
-.multi-number:nth-child(6) { animation-delay: 0.6s; }
+.multi-number:nth-child(2) { animation-delay: 0.15s; }
+.multi-number:nth-child(3) { animation-delay: 0.2s; }
+.multi-number:nth-child(4) { animation-delay: 0.25s; }
+.multi-number:nth-child(5) { animation-delay: 0.3s; }
+.multi-number:nth-child(6) { animation-delay: 0.35s; }
+.multi-number:nth-child(7) { animation-delay: 0.4s; }
+.multi-number:nth-child(8) { animation-delay: 0.45s; }
 
 .result-info {
     display: flex;

@@ -139,32 +139,25 @@ class NumberGenerator {
         if (this.shareBtn) this.shareBtn.addEventListener('click', () => this.shareResult());
 
         // Mode switching
-        console.log('Binding mode events...');
         if (this.basicModeBtn) {
-            console.log('Basic mode button found');
             this.basicModeBtn.addEventListener('click', () => this.switchMode('basic'));
         }
         if (this.multipleModeBtn) {
-            console.log('Multiple mode button found');
             this.multipleModeBtn.addEventListener('click', () => this.switchMode('multiple'));
         }
         if (this.lotteryModeBtn) {
-            console.log('Lottery mode button found');
             this.lotteryModeBtn.addEventListener('click', () => this.switchMode('lottery'));
         }
         if (this.templateModeBtn) {
-            console.log('Template mode button found');
             this.templateModeBtn.addEventListener('click', () => this.switchMode('template'));
         }
 
         // Lottery presets
         document.addEventListener('click', (e) => {
             if (e.target.matches('[data-lottery]')) {
-                console.log('Lottery preset clicked:', e.target.dataset.lottery);
                 this.generateLottery(e.target.dataset.lottery);
             }
             if (e.target.matches('[data-template]')) {
-                console.log('Template clicked:', e.target.dataset.template);
                 this.generateTemplate(e.target.dataset.template);
             }
         });
@@ -176,7 +169,6 @@ class NumberGenerator {
     }
 
     switchMode(mode) {
-        console.log('Switching to mode:', mode);
         this.currentMode = mode;
         
         // Update mode buttons
@@ -184,9 +176,6 @@ class NumberGenerator {
         const targetBtn = document.getElementById(`${mode}ModeBtn`);
         if (targetBtn) {
             targetBtn.classList.add('active');
-            console.log('Activated button:', targetBtn.id);
-        } else {
-            console.error('Button not found:', `${mode}ModeBtn`);
         }
         
         // Update content visibility
@@ -194,12 +183,10 @@ class NumberGenerator {
         const targetContent = document.getElementById(`${mode}Mode`);
         if (targetContent) {
             targetContent.classList.add('active');
-            console.log('Activated content:', targetContent.id);
-        } else {
-            console.error('Content not found:', `${mode}Mode`);
         }
         
-        this.clearResult();
+        // ไม่ลบผลลัพธ์เมื่อเปลี่ยนโหมด - ให้ผลลัพธ์คงอยู่
+        // this.clearResult();
     }
 
     generateLottery(type) {
@@ -289,7 +276,15 @@ class NumberGenerator {
             this.resultNumber.textContent = result;
             this.resultNumber.classList.remove('animate');
             this.resultNumber.style.display = 'inline-block';
-            setTimeout(() => this.resultNumber.classList.add('animate'), 10);
+            
+            // เพิ่มเอฟเฟค animation
+            setTimeout(() => {
+                this.resultNumber.classList.add('animate');
+                this.resultNumber.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.resultNumber.style.transform = 'scale(1)';
+                }, 200);
+            }, 10);
         }
         
         if (this.multiNumbers) {
@@ -315,7 +310,17 @@ class NumberGenerator {
                 numberElement.className = 'multi-number';
                 numberElement.textContent = num;
                 numberElement.style.animationDelay = `${index * 0.1}s`;
+                numberElement.style.opacity = '0';
+                numberElement.style.transform = 'translateY(20px)';
+                
                 this.multiNumbers.appendChild(numberElement);
+                
+                // เอฟเฟค slide in
+                setTimeout(() => {
+                    numberElement.style.opacity = '1';
+                    numberElement.style.transform = 'translateY(0)';
+                    numberElement.style.transition = 'all 0.3s ease';
+                }, index * 100);
             });
             this.multiNumbers.classList.add('show');
         }
