@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สุ่มเลข - Random Number Generator</title>
+    <title>สุ่มทุกอย่าง - Random Everything Generator</title>
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -16,107 +16,597 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i data-lucide="dice-6" class="logo-icon"></i>
-                    <h1>สุ่มเลข</h1>
+        <!-- Navigation Bar -->
+        <nav class="nav-bar">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i data-lucide="dice-6" class="brand-icon"></i>
+                    <span class="brand-text">สุ่มทุกอย่าง</span>
                 </div>
-                <p class="subtitle">Random Number Generator</p>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Settings Card -->
-            <div class="card settings-card">
-                <div class="card-header">
-                    <i data-lucide="settings" class="card-icon"></i>
-                    <h2>ตั้งค่าการสุ่ม</h2>
-                </div>
-                <div class="card-body">
-                    <div class="input-group">
-                        <div class="input-field">
-                            <label for="minValue">
-                                <i data-lucide="minus" class="input-icon"></i>
-                                ตัวเลขต่ำสุด
-                            </label>
-                            <input type="number" id="minValue" value="1" min="0">
-                        </div>
-                        <div class="input-field">
-                            <label for="maxValue">
-                                <i data-lucide="plus" class="input-icon"></i>
-                                ตัวเลขสูงสุด
-                            </label>
-                            <input type="number" id="maxValue" value="100" min="1">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Result Card -->
-            <div class="card result-card">
-                <div class="card-header">
-                    <i data-lucide="target" class="card-icon"></i>
-                    <h2>ผลลัพธ์</h2>
-                </div>
-                <div class="card-body">
-                    <div class="result-display">
-                        <div class="number-container">
-                            <span class="result-number" id="resultNumber">?</span>
-                        </div>
-                        <div class="result-info" id="resultInfo">
-                            <span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="generateBtn">
-                    <i data-lucide="shuffle" class="btn-icon"></i>
-                    สุ่มเลข
-                </button>
-                <button class="btn btn-secondary" id="clearBtn">
-                    <i data-lucide="refresh-cw" class="btn-icon"></i>
-                    รีเซ็ต
-                </button>
-                <button class="btn btn-accent" id="copyBtn" disabled>
-                    <i data-lucide="copy" class="btn-icon"></i>
-                    คัดลอก
-                </button>
-            </div>
-
-            <!-- History Card -->
-            <div class="card history-card">
-                <div class="card-header">
-                    <i data-lucide="clock" class="card-icon"></i>
-                    <h2>ประวัติการสุ่ม</h2>
-                    <button class="btn-clear-history" id="clearHistoryBtn">
-                        <i data-lucide="trash-2"></i>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="number">
+                        <i data-lucide="hash" class="tab-icon"></i>
+                        <span>สุ่มเลข</span>
+                    </button>
+                    <button class="nav-tab" data-tab="color">
+                        <i data-lucide="palette" class="tab-icon"></i>
+                        <span>สุ่มสี</span>
+                    </button>
+                    <button class="nav-tab" data-tab="password">
+                        <i data-lucide="key" class="tab-icon"></i>
+                        <span>รหัสผ่าน</span>
+                    </button>
+                    <button class="nav-tab" data-tab="name">
+                        <i data-lucide="user" class="tab-icon"></i>
+                        <span>ชื่อ</span>
+                    </button>
+                    <button class="nav-tab" data-tab="food">
+                        <i data-lucide="utensils" class="tab-icon"></i>
+                        <span>อาหาร</span>
+                    </button>
+                    <button class="nav-tab" data-tab="quote">
+                        <i data-lucide="message-circle" class="tab-icon"></i>
+                        <span>คำคม</span>
+                    </button>
+                    <button class="nav-tab" data-tab="decision">
+                        <i data-lucide="help-circle" class="tab-icon"></i>
+                        <span>ตัดสินใจ</span>
                     </button>
                 </div>
-                <div class="card-body">
-                    <div class="history-list" id="historyList">
-                        <div class="history-empty">
-                            <i data-lucide="archive" class="empty-icon"></i>
-                            <p>ยังไม่มีประวัติการสุ่ม</p>
+            </div>
+        </nav>
+
+        <!-- Tab Content Wrapper -->
+        <div class="tab-content-wrapper">
+            <!-- Number Tab -->
+            <div class="tab-content active" id="numberTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="dice-6" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มเลข</h1>
+                    </div>
+                    <p class="tool-description">สุ่มตัวเลขในรูปแบบต่างๆ อย่างสวยงามและสะดวก</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Settings Card -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>ตั้งค่าการสุ่ม</h2>
                         </div>
+                        <div class="card-body">
+                            <!-- Mode Selection -->
+                            <div class="mode-selector">
+                                <button class="mode-btn active" data-mode="single">
+                                    <i data-lucide="hash" class="mode-icon"></i>
+                                    เลขเดียว
+                                </button>
+                                <button class="mode-btn" data-mode="multiple">
+                                    <i data-lucide="grid-3x3" class="mode-icon"></i>
+                                    หลายเลข
+                                </button>
+                                <button class="mode-btn" data-mode="lottery">
+                                    <i data-lucide="ticket" class="mode-icon"></i>
+                                    ลอตเตอรี่
+                                </button>
+                                <button class="mode-btn" data-mode="template">
+                                    <i data-lucide="bookmark" class="mode-icon"></i>
+                                    เทมเพลต
+                                </button>
+                            </div>
+
+                            <!-- Mode Content -->
+                            <div class="mode-content" id="singleMode">
+                                <div class="input-group">
+                                    <div class="input-field">
+                                        <label for="minValue">
+                                            <i data-lucide="minus" class="input-icon"></i>
+                                            ตัวเลขต่ำสุด
+                                        </label>
+                                        <input type="number" id="minValue" value="1" min="0">
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="maxValue">
+                                            <i data-lucide="plus" class="input-icon"></i>
+                                            ตัวเลขสูงสุด
+                                        </label>
+                                        <input type="number" id="maxValue" value="100" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result Card -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="target" class="card-icon"></i>
+                            <h2>ผลลัพธ์</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="result-display">
+                                <div class="number-container" id="numberContainer">
+                                    <span class="result-number" id="resultNumber">?</span>
+                                </div>
+                                <div class="result-info" id="resultInfo">
+                                    <span class="range-text">กดปุ่มเพื่อสุ่มเลข</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateBtn">
+                            <i data-lucide="shuffle" class="btn-icon"></i>
+                            สุ่มเลข
+                        </button>
+                        <button class="btn btn-secondary" id="clearBtn">
+                            <i data-lucide="refresh-cw" class="btn-icon"></i>
+                            รีเซ็ต
+                        </button>
+                        <button class="btn btn-accent" id="copyBtn" disabled>
+                            <i data-lucide="copy" class="btn-icon"></i>
+                            คัดลอก
+                        </button>
+                        <button class="btn btn-info" id="shareBtn" disabled>
+                            <i data-lucide="share-2" class="btn-icon"></i>
+                            แชร์
+                        </button>
                     </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Color Tab -->
+            <div class="tab-content" id="colorTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="palette" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มสี</h1>
+                    </div>
+                    <p class="tool-description">สุ่มสีสวยงามในรูปแบบต่างๆ สำหรับงานดีไซน์</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Color Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="palette" class="card-icon"></i>
+                            <h2>สีที่สุ่มได้</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="color-display">
+                                <div class="color-preview" id="colorPreview"></div>
+                                <div class="color-info">
+                                    <div class="color-code" id="colorCode">คลิกสุ่มสี</div>
+                                    <div class="color-formats" id="colorFormats"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateColorBtn">
+                            <i data-lucide="shuffle" class="btn-icon"></i>
+                            สุ่มสี
+                        </button>
+                        <button class="btn btn-secondary" id="copyColorBtn" disabled>
+                            <i data-lucide="copy" class="btn-icon"></i>
+                            คัดลอกโค้ดสี
+                        </button>
+                        <button class="btn btn-accent" id="saveColorBtn" disabled>
+                            <i data-lucide="heart" class="btn-icon"></i>
+                            บันทึกสี
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Tab -->
+            <div class="tab-content" id="passwordTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="key" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มรหัสผ่าน</h1>
+                    </div>
+                    <p class="tool-description">สร้างรหัสผ่านที่ปลอดภัยและแข็งแกร่ง</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Password Settings -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>ตั้งค่ารหัสผ่าน</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <div class="input-field">
+                                    <label for="passwordLength">ความยาว: <span id="lengthValue">12</span></label>
+                                    <input type="range" id="passwordLength" min="4" max="128" value="12">
+                                </div>
+                            </div>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeUppercase" checked>
+                                    <span class="checkmark"></span>
+                                    ตัวพิมพ์ใหญ่ (A-Z)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeLowercase" checked>
+                                    <span class="checkmark"></span>
+                                    ตัวพิมพ์เล็ก (a-z)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeNumbers" checked>
+                                    <span class="checkmark"></span>
+                                    ตัวเลข (0-9)
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeSymbols">
+                                    <span class="checkmark"></span>
+                                    สัญลักษณ์ (!@#$%^&*)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="shield" class="card-icon"></i>
+                            <h2>รหัสผ่านที่สร้าง</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="password-display">
+                                <div class="password-field">
+                                    <input type="text" id="generatedPassword" readonly placeholder="กดปุ่มเพื่อสร้างรหัสผ่าน">
+                                    <button class="toggle-visibility" id="togglePasswordVisibility">
+                                        <i data-lucide="eye" id="visibilityIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength">
+                                    <div class="strength-meter">
+                                        <div class="strength-fill" id="strengthFill"></div>
+                                    </div>
+                                    <span class="strength-text" id="strengthText">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generatePasswordBtn">
+                            <i data-lucide="key" class="btn-icon"></i>
+                            สร้างรหัสผ่าน
+                        </button>
+                        <button class="btn btn-accent" id="copyPasswordBtn" disabled>
+                            <i data-lucide="copy" class="btn-icon"></i>
+                            คัดลอก
+                        </button>
+                        <button class="btn btn-secondary" id="regeneratePasswordBtn" disabled>
+                            <i data-lucide="refresh-cw" class="btn-icon"></i>
+                            สร้างใหม่
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Name Tab -->
+            <div class="tab-content" id="nameTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="user" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มชื่อ</h1>
+                    </div>
+                    <p class="tool-description">สุ่มชื่อคนไทย ชื่อสัตว์เลี้ยง หรือชื่อแบรนด์</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Name Type Selector -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>ประเภทชื่อ</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="name-type-grid">
+                                <button class="name-type-btn active" data-type="thai-male">
+                                    <i data-lucide="user" class="type-icon"></i>
+                                    ชื่อผู้ชายไทย
+                                </button>
+                                <button class="name-type-btn" data-type="thai-female">
+                                    <i data-lucide="user" class="type-icon"></i>
+                                    ชื่อผู้หญิงไทย
+                                </button>
+                                <button class="name-type-btn" data-type="english">
+                                    <i data-lucide="globe" class="type-icon"></i>
+                                    ชื่อฝรั่ง
+                                </button>
+                                <button class="name-type-btn" data-type="pet">
+                                    <i data-lucide="heart" class="type-icon"></i>
+                                    ชื่อสัตว์เลี้ยง
+                                </button>
+                                <button class="name-type-btn" data-type="company">
+                                    <i data-lucide="briefcase" class="type-icon"></i>
+                                    ชื่อบริษัท
+                                </button>
+                                <button class="name-type-btn" data-type="username">
+                                    <i data-lucide="at-sign" class="type-icon"></i>
+                                    Username
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="user-check" class="card-icon"></i>
+                            <h2>ชื่อที่สุ่มได้</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="name-display">
+                                <div class="generated-name" id="generatedName">กดปุ่มเพื่อสุ่มชื่อ</div>
+                                <div class="name-meaning" id="nameMeaning"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateNameBtn">
+                            <i data-lucide="shuffle" class="btn-icon"></i>
+                            สุ่มชื่อ
+                        </button>
+                        <button class="btn btn-accent" id="copyNameBtn" disabled>
+                            <i data-lucide="copy" class="btn-icon"></i>
+                            คัดลอกชื่อ
+                        </button>
+                        <button class="btn btn-secondary" id="favoriteNameBtn" disabled>
+                            <i data-lucide="star" class="btn-icon"></i>
+                            ชื่อโปรด
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Tab -->
+            <div class="tab-content" id="foodTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="utensils" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มอาหาร</h1>
+                    </div>
+                    <p class="tool-description">ช่วยตัดสินใจเลือกอาหารเมื่อไม่รู้จะกินอะไร</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Food Category -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>ประเภทอาหาร</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="food-category-grid">
+                                <button class="food-category-btn active" data-category="all">
+                                    <i data-lucide="utensils" class="category-icon"></i>
+                                    ทั้งหมด
+                                </button>
+                                <button class="food-category-btn" data-category="thai">
+                                    <i data-lucide="chili-pepper" class="category-icon"></i>
+                                    อาหารไทย
+                                </button>
+                                <button class="food-category-btn" data-category="japanese">
+                                    <i data-lucide="fish" class="category-icon"></i>
+                                    อาหารญี่ปุ่น
+                                </button>
+                                <button class="food-category-btn" data-category="western">
+                                    <i data-lucide="beef" class="category-icon"></i>
+                                    อาหารฝรั่ง
+                                </button>
+                                <button class="food-category-btn" data-category="dessert">
+                                    <i data-lucide="cake" class="category-icon"></i>
+                                    ของหวาน
+                                </button>
+                                <button class="food-category-btn" data-category="healthy">
+                                    <i data-lucide="apple" class="category-icon"></i>
+                                    อาหารเพื่อสุขภาพ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Food Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="chef-hat" class="card-icon"></i>
+                            <h2>เมนูที่แนะนำ</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="food-display">
+                                <div class="food-name" id="foodName">กดปุ่มเพื่อสุ่มเมนู</div>
+                                <div class="food-details" id="foodDetails"></div>
+                                <div class="food-emoji" id="foodEmoji">🍽️</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateFoodBtn">
+                            <i data-lucide="shuffle" class="btn-icon"></i>
+                            สุ่มเมนู
+                        </button>
+                        <button class="btn btn-accent" id="saveFoodBtn" disabled>
+                            <i data-lucide="bookmark" class="btn-icon"></i>
+                            บันทึกเมนู
+                        </button>
+                        <button class="btn btn-secondary" id="nearbyRestaurantBtn" disabled>
+                            <i data-lucide="map-pin" class="btn-icon"></i>
+                            ร้านใกล้เคียง
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote Tab -->
+            <div class="tab-content" id="quoteTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="message-circle" class="tool-icon"></i>
+                        <h1>เครื่องมือสุ่มคำคม</h1>
+                    </div>
+                    <p class="tool-description">คำคมสร้างแรงบันดาลใจและข้อคิดดีๆ</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Quote Category -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>หมวดหมู่คำคม</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="quote-category-grid">
+                                <button class="quote-category-btn active" data-category="motivation">
+                                    <i data-lucide="zap" class="category-icon"></i>
+                                    สร้างแรงบันดาลใจ
+                                </button>
+                                <button class="quote-category-btn" data-category="love">
+                                    <i data-lucide="heart" class="category-icon"></i>
+                                    ความรัก
+                                </button>
+                                <button class="quote-category-btn" data-category="wisdom">
+                                    <i data-lucide="brain" class="category-icon"></i>
+                                    ปรัชญา
+                                </button>
+                                <button class="quote-category-btn" data-category="success">
+                                    <i data-lucide="star" class="category-icon"></i>
+                                    ความสำเร็จ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quote Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="quote" class="card-icon"></i>
+                            <h2>คำคมวันนี้</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="quote-display">
+                                <div class="quote-text" id="quoteText">กดปุ่มเพื่อรับคำคมดีๆ</div>
+                                <div class="quote-author" id="quoteAuthor"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateQuoteBtn">
+                            <i data-lucide="shuffle" class="btn-icon"></i>
+                            สุ่มคำคม
+                        </button>
+                        <button class="btn btn-accent" id="shareQuoteBtn" disabled>
+                            <i data-lucide="share-2" class="btn-icon"></i>
+                            แชร์คำคม
+                        </button>
+                        <button class="btn btn-secondary" id="favoriteQuoteBtn" disabled>
+                            <i data-lucide="heart" class="btn-icon"></i>
+                            คำคมโปรด
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decision Tab -->
+            <div class="tab-content" id="decisionTab">
+                <header class="tool-header">
+                    <div class="tool-title">
+                        <i data-lucide="help-circle" class="tool-icon"></i>
+                        <h1>เครื่องมือตัดสินใจ</h1>
+                    </div>
+                    <p class="tool-description">ช่วยตัดสินใจเมื่อลังเลใจ</p>
+                </header>
+
+                <div class="main-content">
+                    <!-- Decision Tools -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <i data-lucide="settings" class="card-icon"></i>
+                            <h2>เลือกรูปแบบ</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="decision-modes">
+                                <button class="decision-mode-btn active" data-mode="yesno">
+                                    <i data-lucide="check-x" class="mode-icon"></i>
+                                    ใช่ / ไม่ใช่
+                                </button>
+                                <button class="decision-mode-btn" data-mode="custom">
+                                    <i data-lucide="list" class="mode-icon"></i>
+                                    ตัวเลือกกำหนดเอง
+                                </button>
+                                <button class="decision-mode-btn" data-mode="magic8">
+                                    <i data-lucide="crystal-ball" class="mode-icon"></i>
+                                    ลูกแก้วเวทมนตร์
+                                </button>
+                            </div>
+
+                            <!-- Custom Options -->
+                            <div class="custom-options hidden" id="customOptions">
+                                <div class="input-field">
+                                    <label>ตัวเลือกของคุณ (แยกด้วยเครื่องหมายจุลภาค)</label>
+                                    <textarea id="customChoices" placeholder="ตัวเลือก 1, ตัวเลือก 2, ตัวเลือก 3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decision Result -->
+                    <div class="card result-card">
+                        <div class="card-header">
+                            <i data-lucide="lightbulb" class="card-icon"></i>
+                            <h2>คำตอบ</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="decision-display">
+                                <div class="decision-result" id="decisionResult">คิดคำถามแล้วกดปุ่ม</div>
+                                <div class="decision-confidence" id="decisionConfidence"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="makeDecisionBtn">
+                            <i data-lucide="zap" class="btn-icon"></i>
+                            ตัดสินใจ!
+                        </button>
+                        <button class="btn btn-secondary" id="askAgainBtn" disabled>
+                            <i data-lucide="refresh-cw" class="btn-icon"></i>
+                            ถามอีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <p>&copy; 2025 Random Number Generator. สร้างด้วย Node.js</p>
+                <p>&copy; 2025 สุ่มทุกอย่าง - เครื่องมือสุ่มครบครัน. สร้างด้วย Node.js</p>
                 <div class="tech-stack">
                     <i data-lucide="server" title="Node.js"></i>
                     <i data-lucide="globe" title="Express"></i>
                     <i data-lucide="code" title="JavaScript"></i>
+                    <i data-lucide="palette" title="CSS3"></i>
+                    <i data-lucide="smartphone" title="Responsive"></i>
                 </div>
             </div>
         </footer>
