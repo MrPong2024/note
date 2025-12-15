@@ -78,26 +78,26 @@
                         <div class="card-body">
                             <!-- Mode Selection -->
                             <div class="mode-selector">
-                                <button class="mode-btn active" data-mode="single">
+                                <button id="basicModeBtn" class="mode-btn active" data-mode="basic">
                                     <i data-lucide="hash" class="mode-icon"></i>
                                     เลขเดียว
                                 </button>
-                                <button class="mode-btn" data-mode="multiple">
+                                <button id="multipleModeBtn" class="mode-btn" data-mode="multiple">
                                     <i data-lucide="grid-3x3" class="mode-icon"></i>
                                     หลายเลข
                                 </button>
-                                <button class="mode-btn" data-mode="lottery">
+                                <button id="lotteryModeBtn" class="mode-btn" data-mode="lottery">
                                     <i data-lucide="ticket" class="mode-icon"></i>
                                     ลอตเตอรี่
                                 </button>
-                                <button class="mode-btn" data-mode="template">
+                                <button id="templateModeBtn" class="mode-btn" data-mode="template">
                                     <i data-lucide="bookmark" class="mode-icon"></i>
                                     เทมเพลต
                                 </button>
                             </div>
 
                             <!-- Mode Content -->
-                            <div class="mode-content" id="singleMode">
+                            <div class="mode-content active" id="basicMode">
                                 <div class="input-group">
                                     <div class="input-field">
                                         <label for="minValue">
